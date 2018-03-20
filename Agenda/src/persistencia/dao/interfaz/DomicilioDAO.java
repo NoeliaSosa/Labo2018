@@ -1,16 +1,13 @@
 package persistencia.dao.interfaz;
 
-import java.util.List;
+import java.sql.SQLException;
 
 import dto.DomicilioDTO;
 
 
-public interface DomicilioDAO {
+public interface DomicilioDAO extends DAO<DomicilioDTO> {
 
-		public Integer insert(DomicilioDTO domicilio);
-
-		public  boolean delete(DomicilioDTO persona_a_eliminar);
-		
-		public List<DomicilioDTO> readAll();
+		public Integer insert(DomicilioDTO domicilio) throws SQLException;
+		public DomicilioDTO getDomicilio(int id);
 	
 }

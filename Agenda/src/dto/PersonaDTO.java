@@ -79,4 +79,67 @@ public class PersonaDTO {
 		this.tipoContactoId = tipoContactoId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((correoElectronico == null) ? 0 : correoElectronico
+						.hashCode());
+		result = prime * result
+				+ ((domicilio == null) ? 0 : domicilio.hashCode());
+		result = prime
+				* result
+				+ ((fechaCumpleanios == null) ? 0 : fechaCumpleanios.hashCode());
+		result = prime * result + idPersona;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result
+				+ ((telefono == null) ? 0 : telefono.hashCode());
+		result = prime * result + tipoContactoId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PersonaDTO other = (PersonaDTO) obj;
+		if (correoElectronico == null) {
+			if (other.correoElectronico != null)
+				return false;
+		} else if (!correoElectronico.equals(other.correoElectronico))
+			return false;
+		if (domicilio == null) {
+			if (other.domicilio != null)
+				return false;
+		} else if (!domicilio.equals(other.domicilio))
+			return false;
+		if (fechaCumpleanios == null) {
+			if (other.fechaCumpleanios != null)
+				return false;
+		} else if (!fechaCumpleanios.equals(other.fechaCumpleanios))
+			return false;
+		if (idPersona != other.idPersona)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (telefono == null) {
+			if (other.telefono != null)
+				return false;
+		} else if (!telefono.equals(other.telefono))
+			return false;
+		if (tipoContactoId != other.tipoContactoId)
+			return false;
+		return true;
+	}
+	
+	
 }
