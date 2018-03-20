@@ -12,10 +12,25 @@ import dto.LocalidadDTO;
 
 public class LocalidadDAOSQL implements LocalidadDAO {
 	private static final String readall = "SELECT * FROM localidades";
+	private static final String insert = "INSERT INTO localidades(Nombre) VALUES(?)";
+	private static final String update = "UPDATE localidades SET Nombre=?  WHERE idLocalidad = ?";
+	private static final String delete = "DELETE FROM localidades WHERE idLocalidad = ?";
 
 	@Override
-	public boolean delete(LocalidadDTO persona_a_eliminar) {
-		// TODO Auto-generated method stub
+	public boolean delete(LocalidadDTO localidad_a_eliminar) {
+		PreparedStatement statement;
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(delete);
+			statement.setInt(1, localidad_a_eliminar.getIdLocalidad());
+			if(statement.executeUpdate()>0)
+				return true;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -40,8 +55,38 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	}
 
 	@Override
-	public boolean update(LocalidadDTO persona) {
-		// TODO Auto-generated method stub
+	public boolean update(LocalidadDTO localidad) {
+		PreparedStatement statement = null;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(update);
+			statement.setString(1, localidad.getDescripcion());
+			int result = statement.executeUpdate();
+			if (result > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean insert(LocalidadDTO localidad) {
+		PreparedStatement statement = null;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(insert);
+			statement.setString(1, localidad.getDescripcion());
+			int result = statement.executeUpdate();
+			if (result > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 }

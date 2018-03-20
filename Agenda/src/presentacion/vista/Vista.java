@@ -3,22 +3,22 @@ package presentacion.vista;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
 
 import persistencia.conexion.Conexion;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Vista {
 	private JFrame frame;
 	private JTable tablaPersonas;
 	private JButton btnAgregar;
+	private JButton btnLocalidades;
+	private JButton btnTiposContactos;
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private JButton btnEditar;
@@ -39,37 +39,41 @@ public class Vista {
 		frame.getContentPane().setLayout(null);
 
 		modelPersonas = new DefaultTableModel(null, nombreColumnas);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 831, 433);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+
+		JScrollPane spPersonas = new JScrollPane();
+		spPersonas.setBounds(0, 0, 831, 394);
+		panel.add(spPersonas);
+		tablaPersonas = new JTable(modelPersonas);
+		spPersonas.setViewportView(tablaPersonas);
+
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(442, 405, 89, 23);
+		panel.add(btnAgregar);
 		
-				JPanel panel = new JPanel();
-				panel.setBounds(0, 0, 831, 433);
-				frame.getContentPane().add(panel);
-				panel.setLayout(null);
-				
-						JScrollPane spPersonas = new JScrollPane();
-						spPersonas.setBounds(0, 11, 831, 383);
-						panel.add(spPersonas);
-						tablaPersonas = new JTable(modelPersonas);
-						spPersonas.setViewportView(tablaPersonas);
-						
-								btnAgregar = new JButton("Agregar");
-								btnAgregar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent arg0) {
-									}
-								});
-								btnAgregar.setBounds(446, 405, 89, 23);
-								panel.add(btnAgregar);
-								
-										btnEditar = new JButton("Editar");
-										btnEditar.setBounds(541, 405, 89, 23);
-										panel.add(btnEditar);
-										
-												btnBorrar = new JButton("Borrar");
-												btnBorrar.setBounds(637, 405, 89, 23);
-												panel.add(btnBorrar);
-												
-														btnReporte = new JButton("Reporte");
-														btnReporte.setBounds(732, 405, 89, 23);
-														panel.add(btnReporte);
+		btnLocalidades = new JButton("Localidades");
+		btnLocalidades.setBounds(157, 405, 89, 23);
+		panel.add(btnLocalidades);
+		
+		btnTiposContactos = new JButton("Tipos De Contactos");
+		btnTiposContactos.setBounds(10, 405, 137, 23);
+		panel.add(btnTiposContactos);
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(541, 405, 89, 23);
+		panel.add(btnEditar);
+
+		btnBorrar = new JButton("Borrar");
+		btnBorrar.setBounds(637, 405, 89, 23);
+		panel.add(btnBorrar);
+
+		btnReporte = new JButton("Reporte");
+		btnReporte.setBounds(732, 405, 89, 23);
+		panel.add(btnReporte);
 	}
 
 	public void show() {
@@ -91,6 +95,10 @@ public class Vista {
 	}
 
 	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
+
+	public JButton getBtnLocalidades() {
 		return btnAgregar;
 	}
 
