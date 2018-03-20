@@ -21,7 +21,7 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Teléfono"};
+	private  String[] nombreColumnas = {"Nombre y apellido", "Tel\u00E9fono", "Fecha de Cumplea\u00F1os", "Correo Electr\u00D3nico", "Calle", "Altura", "Piso", "Dpto.", "Localidad", "Tipo Contacto",};
 
 	public Vista() 
 	{
@@ -33,43 +33,37 @@ public class Vista
 	private void initialize() 
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 710, 467);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
+		panel.setBounds(0, 0, 694, 428);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(10, 11, 414, 182);
+		spPersonas.setBounds(10, 11, 684, 383);
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas);
-		
-		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
-		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
-		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
-		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
-		
 		spPersonas.setViewportView(tablaPersonas);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(10, 228, 89, 23);
+		btnAgregar.setBounds(309, 405, 89, 23);
 		panel.add(btnAgregar);
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 228, 89, 23);
+		btnEditar.setBounds(408, 405, 89, 23);
 		panel.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 228, 89, 23);
+		btnBorrar.setBounds(507, 405, 89, 23);
 		panel.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(307, 228, 89, 23);
+		btnReporte.setBounds(605, 405, 89, 23);
 		panel.add(btnReporte);
 	}
 	
