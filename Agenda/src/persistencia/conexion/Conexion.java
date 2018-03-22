@@ -13,7 +13,7 @@ public class Conexion
 	{
 		try
 		{
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","Tiempo8990");
+			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","root");
 			System.out.println("Conexion exitosa");
 		}
 		catch(Exception e)

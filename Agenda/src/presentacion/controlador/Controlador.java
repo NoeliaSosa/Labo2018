@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
@@ -93,7 +95,6 @@ public class Controlador implements ActionListener {
 		return "";
 	}
 
-	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vista.getBtnAgregar()) {
 			this.ventanaPersona = new VentanaPersona(this);
@@ -103,45 +104,100 @@ public class Controlador implements ActionListener {
 			for (int fila : filas_seleccionadas) {
 				this.agenda.borrarPersona(this.personas_en_tabla.get(fila));
 			}
-
 			this.llenarTabla();
 		} else if (e.getSource() == this.vista.getBtnEditar()) {
 			int[] filas_seleccionadas = this.vista.getTablaPersonas()
 					.getSelectedRows();
+			
 			for (int fila : filas_seleccionadas) {
 				personaEdit = this.personas_en_tabla.get(fila);
 				this.ventanaPersona = new VentanaPersona(this);
 			}
+			
 		} else if (e.getSource() == this.vista.getBtnReporte()) {
 			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
 			reporte.mostrar();
 		} else if (e.getSource() == this.ventanaPersona.getBtnAgregarPersona()) {
-			DomicilioDTO domicilio = new DomicilioDTO(0,
-					ventanaPersona.getCalleInput(),
-					ventanaPersona.getAlturaInput(),
-					ventanaPersona.getPisoInput(),
-					ventanaPersona.getDptoInput(), ventanaPersona
-							.getLocalidad().getIdLocalidad());
-			// resolver el date
-			PersonaDTO nuevaPersona = new PersonaDTO(0,
-					this.ventanaPersona.getTxtNombre(),
-					ventanaPersona.getTxtTelefono(), domicilio, new Date(
-							ventanaPersona.getCumpleInput()),
-					ventanaPersona.getCorreoElecInput(), ventanaPersona
-							.getTipoContacto().getIdTipo());
-			if (personaEdit != null) {
-				nuevaPersona.getDomicilio().setIdDomicilio(
-						personaEdit.getDomicilio().getIdDomicilio());
-				nuevaPersona.setIdPersona(personaEdit.getIdPersona());
-				this.agenda.updatePersona(nuevaPersona);
-				personaEdit = null;
-			} else {
-				this.agenda.agregarPersona(nuevaPersona);
-			}
+			if(camposValidados()) {
+				
+				DomicilioDTO domicilio = crearDomicilio();
+				PersonaDTO nuevaPersona = crearPersona(domicilio);
 
-			this.llenarTabla();
-			this.ventanaPersona.dispose();
+				if (personaEdit != null) {
+					nuevaPersona.getDomicilio().setIdDomicilio(
+							personaEdit.getDomicilio().getIdDomicilio());
+					nuevaPersona.setIdPersona(personaEdit.getIdPersona());
+					this.agenda.updatePersona(nuevaPersona);
+					personaEdit = null;
+				} else {
+					this.agenda.agregarPersona(nuevaPersona);
+				}
+				this.llenarTabla();
+				this.ventanaPersona.dispose();
+			}else {
+				this.ventanaPersona.showError();
+			}
 		}
+	}
+
+	private PersonaDTO crearPersona(DomicilioDTO domicilio) {
+		@SuppressWarnings("deprecation")
+		PersonaDTO nuevaPersona = new PersonaDTO(0,
+				this.ventanaPersona.getTxtNombre(),
+				ventanaPersona.getTxtTelefono(), domicilio, 
+				new Date(ventanaPersona.getCumpleInput()),
+				ventanaPersona.getCorreoElecInput(), ventanaPersona
+						.getTipoContacto().getIdTipo());
+		return nuevaPersona;
+	}
+
+	private DomicilioDTO crearDomicilio() {
+		DomicilioDTO domicilio = new DomicilioDTO(0,
+			ventanaPersona.getCalleInput(),
+			ventanaPersona.getAlturaInput(),
+			ventanaPersona.getPisoInput(),
+			ventanaPersona.getDptoInput(), ventanaPersona
+					.getLocalidad().getIdLocalidad());
+		return domicilio;
+	}
+
+	private boolean camposValidados() {
+		return validarNombre() & validarTelefono() & validarEmail() & validarFecha() & validarAltura() & validarPiso() & validarCalle();
+	}
+
+	private boolean validador(String regex,String matcher) {
+		Pattern pat = Pattern.compile(regex);
+	    Matcher mat = pat.matcher(matcher);
+		return mat.matches();
+	}
+	
+	private boolean validarFecha() {
+		return validador("^(0?[1-9]|[12][0-9]|3[01])[\\/](0?[1-9]|1[012])[/\\\\/](19|20)\\d{2}$",this.ventanaPersona.getCumpleInput());
+	}
+
+	private boolean validarEmail() {
+		String EMAIL_VERIFICATION = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$";
+		return validador(EMAIL_VERIFICATION,this.ventanaPersona.getCorreoElecInput());
+	}
+
+	private boolean validarTelefono() {
+		return validador("[0-9]+",this.ventanaPersona.getTxtTelefono());
+	}
+
+	private boolean validarNombre() {
+		return validador("[A-Za-z]+",this.ventanaPersona.getTxtNombre());
+	}
+	
+	private boolean validarCalle() {
+		return validador("^[A-z]+\\s[A-z]+|^[A-z]+|^[A-z]+\\s",this.ventanaPersona.getCalleInput());
+	}
+	
+	private boolean validarPiso() {
+		return validador("[0-9]+|\\s",this.ventanaPersona.getPisoInput());
+	}
+	
+	private boolean validarAltura() {
+		return validador("[0-9]+",this.ventanaPersona.getAlturaInput());
 	}
 
 	public List<LocalidadDTO> getLocalidades() {

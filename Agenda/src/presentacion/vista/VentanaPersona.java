@@ -3,6 +3,7 @@ package presentacion.vista;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -209,6 +210,10 @@ public class VentanaPersona extends JFrame {
 		}
 
 	}
+	
+	public void showError() {
+		JOptionPane.showMessageDialog(null, "Existen errores en la carga de datos por favor VERIFICAR");
+	}
 
 	public String getTxtNombre() {
 		return txtNombre.getText();
@@ -216,10 +221,6 @@ public class VentanaPersona extends JFrame {
 
 	public String getTxtTelefono() {
 		return txtTelefono.getText();
-	}
-
-	public JButton getBtnAgregarPersona() {
-		return btnAgregarPersona;
 	}
 
 	public String getCorreoElecInput() {
@@ -253,5 +254,8 @@ public class VentanaPersona extends JFrame {
 	public TipoDeContactoDTO getTipoContacto() {
 		return (TipoDeContactoDTO) tipoContactoBox.getSelectedItem();
 	}
-
+	
+	public JButton getBtnAgregarPersona() {
+		return btnAgregarPersona;
+	}
 }
