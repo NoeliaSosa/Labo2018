@@ -1,6 +1,12 @@
 package presentacion.vista;
 
+import java.awt.Color;
+import java.awt.Label;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,15 +16,12 @@ import javax.swing.border.EmptyBorder;
 
 import presentacion.controlador.Controlador;
 
-import javax.swing.JComboBox;
+import com.toedter.calendar.JCalendar;
 
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoDeContactoDTO;
 
-import java.awt.Color;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 @SuppressWarnings("rawtypes")
 public class VentanaPersona extends JFrame {
@@ -29,82 +32,73 @@ public class VentanaPersona extends JFrame {
 	private JButton btnAgregarPersona;
 	private Controlador controlador;
 	private JTextField correoElecInput;
-	private JTextField cumpleInput;
 	private JTextField calleInput;
 	private JTextField alturaInput;
 	private JTextField pisoInput;
 	private JTextField dptoInput;
 	private JComboBox localidadBox;
 	private JComboBox tipoContactoBox;
+	private JCalendar calendar;
 
 	public VentanaPersona(Controlador controlador) {
 		super();
 		this.controlador = controlador;
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 623, 419);
+		setBounds(100, 100, 651, 443);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 587, 358);
+		panel.setBounds(0, 0, 635, 404);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblNombreYApellido = new JLabel("Nombre y apellido");
-		lblNombreYApellido.setBounds(10, 11, 113, 14);
+		lblNombreYApellido.setBounds(10, 13, 113, 14);
 		panel.add(lblNombreYApellido);
 
 		JLabel lblTelfono = new JLabel("Tel\u00E9fono");
-		lblTelfono.setBounds(10, 52, 113, 14);
+		lblTelfono.setBounds(10, 51, 99, 14);
 		panel.add(lblTelfono);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(133, 8, 164, 20);
+		txtNombre.setBounds(146, 10, 164, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(133, 49, 164, 20);
+		txtTelefono.setBounds(146, 51, 164, 20);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
+		btnAgregarPersona.setBounds(546, 370, 89, 23);
 		btnAgregarPersona.addActionListener(this.controlador);
-		btnAgregarPersona.setBounds(469, 309, 89, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblCorreoElectrnico = new JLabel("Correo Electr\u00F3nico");
-		lblCorreoElectrnico.setBounds(307, 52, 99, 14);
+		lblCorreoElectrnico.setBounds(10, 142, 99, 14);
 		panel.add(lblCorreoElectrnico);
 
 		correoElecInput = new JTextField();
 		correoElecInput.setColumns(10);
-		correoElecInput.setBounds(413, 49, 164, 20);
+		correoElecInput.setBounds(146, 139, 164, 20);
 		panel.add(correoElecInput);
 
-		JLabel lblFechaCumpleaos = new JLabel("Fecha Cumplea\u00F1os");
-		lblFechaCumpleaos.setBounds(307, 11, 99, 14);
-		panel.add(lblFechaCumpleaos);
-
-		cumpleInput = new JTextField();
-		cumpleInput.setColumns(10);
-		cumpleInput.setBounds(413, 8, 164, 20);
-		panel.add(cumpleInput);
-
 		JLabel lblTipoContacto = new JLabel("Tipo Contacto");
-		lblTipoContacto.setBounds(10, 96, 113, 14);
+		lblTipoContacto.setBounds(10, 101, 99, 14);
 		panel.add(lblTipoContacto);
 
 		tipoContactoBox = new JComboBox();
-		tipoContactoBox.setBounds(133, 93, 164, 20);
+		tipoContactoBox.setBounds(146, 98, 164, 20);
 		panel.add(tipoContactoBox);
 
 		JPanel panel_domicilio = new JPanel();
 		panel_domicilio.setBackground(Color.LIGHT_GRAY);
-		panel_domicilio.setBounds(10, 143, 567, 155);
+		panel_domicilio.setBounds(42, 205, 567, 155);
 		panel.add(panel_domicilio);
 		panel_domicilio.setLayout(null);
 
@@ -155,6 +149,18 @@ public class VentanaPersona extends JFrame {
 		localidadBox = new JComboBox();
 		localidadBox.setBounds(74, 69, 188, 20);
 		panel_domicilio.add(localidadBox);
+		
+		calendar = new JCalendar(new Date(),false);
+		calendar.setBounds(349, 39, 260, 155);
+		calendar.setWeekOfYearVisible(false);
+		calendar.setMaxSelectableDate(new Date());
+		panel.add(calendar);
+		
+		Label label = new Label("Fecha de cumplea\u00F1os");
+		label.setBounds(349, 10, 145, 22);
+		panel.add(label);
+
+
 		llenarCombos();
 		verificarEdicion();
 		this.setVisible(true);
@@ -166,9 +172,7 @@ public class VentanaPersona extends JFrame {
 			txtNombre.setText(personaEdit.getNombre());
 			txtTelefono.setText(personaEdit.getTelefono());
 			correoElecInput.setText(personaEdit.getCorreoElectronico());
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			String dateStr = formatter.format(personaEdit.getFechaCumpleanios());
-			cumpleInput.setText(dateStr);
+			calendar.setDate(personaEdit.getFechaCumpleanios());
 			calleInput.setText(personaEdit.getDomicilio().getCalle());
 			alturaInput.setText(personaEdit.getDomicilio().getAltura());
 			pisoInput.setText(personaEdit.getDomicilio().getPiso());
@@ -228,7 +232,8 @@ public class VentanaPersona extends JFrame {
 	}
 
 	public String getCumpleInput() {
-		return cumpleInput.getText();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return simpleDateFormat.format(calendar.getDate());
 	}
 
 	public String getCalleInput() {
@@ -257,5 +262,8 @@ public class VentanaPersona extends JFrame {
 	
 	public JButton getBtnAgregarPersona() {
 		return btnAgregarPersona;
+	}
+	public void showError(String txt) {
+		JOptionPane.showMessageDialog(null, txt);
 	}
 }

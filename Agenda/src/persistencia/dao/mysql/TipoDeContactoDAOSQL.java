@@ -6,28 +6,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.TipoDeContactoDAO;
 import dto.TipoDeContactoDTO;
+import exceptions.DuplicadoException;
 
 public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 	private static final String readall = "SELECT * FROM tipos_de_contactos";
 	private static final String insert = "INSERT INTO tipos_de_contactos(Descripcion) VALUES(?)";
 	private static final String update = "UPDATE tipos_de_contactos SET Descripcion=?  WHERE idTipo = ?";
 	private static final String delete = "DELETE FROM tipos_de_contactos WHERE idTipo = ?";
+	private static final String select = "SELECT * FROM tipos_de_contactos WHERE Descripcion=?  ";
+
 
 	@Override
 	public boolean delete(TipoDeContactoDTO tipoContacto_a_eliminar) {
-		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
-		try {
-			statement = conexion.getSQLConexion().prepareStatement(delete);
-			statement.setInt(1, tipoContacto_a_eliminar.getIdTipo());
-			if (statement.executeUpdate() > 0)
-				return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
 		return false;
 	}
 
@@ -58,7 +54,7 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 		try {
 			statement = conexion.getSQLConexion().prepareStatement(update);
 			statement.setString(1, tipoContacto.getDescripcion());
-			statement.setInt(6, tipoContacto.getIdTipo());
+			statement.setInt(2, tipoContacto.getIdTipo());
 			int result = statement.executeUpdate();
 			if (result > 0) {
 				return true;
@@ -71,7 +67,10 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 	}
 
 	@Override
-	public boolean insert(TipoDeContactoDTO tipoContacto) {
+	public boolean insert(TipoDeContactoDTO tipoContacto) throws DuplicadoException {
+		if(!validaDuplicado(tipoContacto)){
+			throw new DuplicadoException("La localidad ya existe");
+		}
 		PreparedStatement statement = null;
 		Conexion conexion = Conexion.getConexion();
 		try {
@@ -86,6 +85,41 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 		}
 
 		return false;
+	}
+
+	private boolean validaDuplicado(TipoDeContactoDTO tipoContacto) {
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(select);
+			statement.setString(1, tipoContacto.getDescripcion());
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	@Override
+	public void borrar(TipoDeContactoDTO tipoContacto_a_eliminar)
+			throws MySQLIntegrityConstraintViolationException {
+		PreparedStatement statement;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(delete);
+			statement.setInt(1, tipoContacto_a_eliminar.getIdTipo());
+			statement.executeUpdate();
+		}catch (MySQLIntegrityConstraintViolationException m){
+			throw new MySQLIntegrityConstraintViolationException();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

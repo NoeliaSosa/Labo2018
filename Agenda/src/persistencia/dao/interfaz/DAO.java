@@ -10,4 +10,5 @@ public interface DAO<T> {
 	public List<T> readAll();
 	
 	public boolean update(T  persona);
+
 }

@@ -7,6 +7,9 @@ import com.alee.laf.WebLookAndFeel;
 import modelo.Agenda;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.controlador.Controlador;
+import presentacion.controlador.ControladorABMs;
+import presentacion.vista.VentanaLocalidades;
+import presentacion.vista.VentanaTiposDeContactos;
 import presentacion.vista.Vista;
 
 
@@ -22,8 +25,11 @@ public class Main
 	        System.out.println("Error setting native LAF: " + e);
 	    }
 		Vista vista = new Vista();
+		VentanaLocalidades ventanaLocalidades = new VentanaLocalidades();
+		VentanaTiposDeContactos ventanaTiposContactos = new VentanaTiposDeContactos();
 		Agenda modelo = new Agenda(new DAOSQLFactory());
-		Controlador controlador = new Controlador(vista, modelo);
+		ControladorABMs controladorABMs = new ControladorABMs(ventanaLocalidades, ventanaTiposContactos, modelo);
+		Controlador controlador = new Controlador(vista, modelo,controladorABMs);
 		controlador.inicializar();
 	}
 }

@@ -11,20 +11,24 @@ import persistencia.dao.interfaz.DomicilioDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import dto.DomicilioDTO;
 import dto.PersonaDTO;
+import exceptions.DuplicadoException;
 
 public class PersonaDAOSQL implements PersonaDAO {
 	private static final String insert = "INSERT INTO personas(Nombre, Telefono,CorreoElectronico,FechaCumpleanios,tipoContactoId,domicilioId) VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String update = "UPDATE personas SET Nombre=?, Telefono=?,CorreoElectronico=?,FechaCumpleanios=?,tipoContactoId=?,domicilioId=?  WHERE idPersona = ?";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-
+	private static final String select = "SELECT * FROM personas where Nombre=?, Telefono=?";
 	private DomicilioDAO domicilioSQL;
 
 	public PersonaDAOSQL(DomicilioDAO domicilio) {
 		domicilioSQL = domicilio;
 	}
 
-	public boolean insert(PersonaDTO persona) {
+	public boolean insert(PersonaDTO persona) throws DuplicadoException {
+		if(!validaDuplicado(persona)){
+			throw new DuplicadoException("La persona y telefono ya existen");
+		}
 		PreparedStatement statement;
 		Conexion conexion = Conexion.getConexion();
 		try {
@@ -51,8 +55,29 @@ public class PersonaDAOSQL implements PersonaDAO {
 		return true;
 	}
 
+	private boolean validaDuplicado(PersonaDTO persona) {
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(select);
+			statement.setString(1,persona.getNombre());
+			statement.setString(2,persona.getTelefono());
+			resultSet = statement.executeQuery();
+			if(resultSet!=null && resultSet.next()){
+				return false;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 	private void agregarDomicilioPersona(DomicilioDTO domicilio)
-			throws SQLException {
+			throws SQLException, DuplicadoException {
+		if(!domicilioSQL.validaDuplicadoDomicilio(domicilio)){
+			throw new DuplicadoException ("El domicilio ya existe");
+		}
 		Integer idDomicilio = domicilioSQL.insert(domicilio);
 		domicilio.setIdDomicilio(idDomicilio);
 
@@ -142,5 +167,11 @@ public class PersonaDAOSQL implements PersonaDAO {
 	private boolean updateDomicilioPersona(DomicilioDTO domicilio) {
 		return domicilioSQL.update(domicilio);
 
+	}
+
+	@Override
+	public PersonaDTO selectPorNombre(String nombre, String telefono) {
+		return null;
+		
 	}
 }

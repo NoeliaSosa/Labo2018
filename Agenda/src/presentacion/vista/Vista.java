@@ -54,15 +54,15 @@ public class Vista {
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(442, 405, 89, 23);
 		panel.add(btnAgregar);
-		
+
 		btnLocalidades = new JButton("Localidades");
 		btnLocalidades.setBounds(157, 405, 89, 23);
 		panel.add(btnLocalidades);
-		
+
 		btnTiposContactos = new JButton("Tipos De Contactos");
 		btnTiposContactos.setBounds(10, 405, 137, 23);
 		panel.add(btnTiposContactos);
-		
+
 		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(541, 405, 89, 23);
 		panel.add(btnEditar);
@@ -98,10 +98,6 @@ public class Vista {
 		return btnAgregar;
 	}
 
-	public JButton getBtnLocalidades() {
-		return btnAgregar;
-	}
-
 	public JButton getBtnEditar() {
 		return btnEditar;
 	}
@@ -124,5 +120,13 @@ public class Vista {
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
+	}
+
+	public JButton getBtnTiposContactos() {
+		return btnTiposContactos;
+	}
+
+	public JButton getBtnLocalidades() {
+		return btnLocalidades;
 	}
 }

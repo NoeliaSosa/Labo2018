@@ -7,9 +7,13 @@ import persistencia.dao.interfaz.DomicilioDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.TipoDeContactoDAO;
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoDeContactoDTO;
+import exceptions.DuplicadoException;
 
 public class Agenda {
 	private PersonaDAO persona;
@@ -24,7 +28,7 @@ public class Agenda {
 		this.tipoContacto = metodo_persistencia.createTipoDeContactoDAO();
 	}
 
-	public void agregarPersona(PersonaDTO nuevaPersona) {
+	public void agregarPersona(PersonaDTO nuevaPersona) throws DuplicadoException {
 		this.persona.insert(nuevaPersona);
 	}
 	
@@ -46,6 +50,30 @@ public class Agenda {
 
 	public List<TipoDeContactoDTO> obtenerTiposDeContactos() {
 		return this.tipoContacto.readAll();
+	}
+	
+	public void borrarLocalidad(LocalidadDTO localidad) throws MySQLIntegrityConstraintViolationException{
+		this.localidad.borrar(localidad);
+	}
+	
+	public void borrarTipoDeContacto(TipoDeContactoDTO tipo) throws MySQLIntegrityConstraintViolationException{
+		this.tipoContacto.borrar(tipo);
+	}
+	
+	public void agregarLocalidad(LocalidadDTO localidad) throws DuplicadoException{
+		this.localidad.insert(localidad);
+	}
+	
+	public void agregarTipoDeContacto(TipoDeContactoDTO tipo) throws DuplicadoException{
+		this.tipoContacto.insert(tipo);
+	}
+	
+	public void updateLocalidad(LocalidadDTO localidad){
+		this.localidad.update(localidad);
+	}
+	
+	public void updateTipoDeContacto(TipoDeContactoDTO tipo){
+		this.tipoContacto.update(tipo);
 	}
 
 }

@@ -9,5 +9,6 @@ public interface DomicilioDAO extends DAO<DomicilioDTO> {
 
 		public Integer insert(DomicilioDTO domicilio) throws SQLException;
 		public DomicilioDTO getDomicilio(int id);
+		public boolean validaDuplicadoDomicilio(DomicilioDTO domicilio);
 	
 }
