@@ -32,8 +32,9 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 		List<TipoDeContactoDTO> localidadesRet = new ArrayList<TipoDeContactoDTO>();
 		PreparedStatement statement;
 		ResultSet resultSet;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 
@@ -50,8 +51,9 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 	@Override
 	public boolean update(TipoDeContactoDTO tipoContacto) {
 		PreparedStatement statement = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(update);
 			statement.setString(1, tipoContacto.getDescripcion());
 			statement.setInt(2, tipoContacto.getIdTipo());
@@ -72,8 +74,9 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 			throw new DuplicadoException("La localidad ya existe");
 		}
 		PreparedStatement statement = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(insert);
 			statement.setString(1, tipoContacto.getDescripcion());
 			int result = statement.executeUpdate();
@@ -90,8 +93,9 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 	private boolean validaDuplicado(TipoDeContactoDTO tipoContacto) {
 		PreparedStatement statement;
 		ResultSet resultSet;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(select);
 			statement.setString(1, tipoContacto.getDescripcion());
 			resultSet = statement.executeQuery();
@@ -109,8 +113,9 @@ public class TipoDeContactoDAOSQL implements TipoDeContactoDAO {
 	public void borrar(TipoDeContactoDTO tipoContacto_a_eliminar)
 			throws MySQLIntegrityConstraintViolationException {
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(delete);
 			statement.setInt(1, tipoContacto_a_eliminar.getIdTipo());
 			statement.executeUpdate();

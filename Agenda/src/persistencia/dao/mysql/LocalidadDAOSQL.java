@@ -24,8 +24,9 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	public void borrar(LocalidadDTO localidad_a_eliminar)
 			throws MySQLIntegrityConstraintViolationException {
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(delete);
 			statement.setInt(1, localidad_a_eliminar.getIdLocalidad());
 			statement.executeUpdate();
@@ -42,8 +43,9 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 		List<LocalidadDTO> localidadesRet = new ArrayList<LocalidadDTO>();
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 
@@ -61,8 +63,9 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	@Override
 	public boolean update(LocalidadDTO localidad) {
 		PreparedStatement statement = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(update);
 			statement.setString(1, localidad.getDescripcion());
 			statement.setString(2, localidad.getCodigoPostal());
@@ -82,8 +85,9 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	public boolean insert(LocalidadDTO localidad) throws DuplicadoException {
 
 		PreparedStatement statement = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			if (!validaDuplicado(localidad)) {
 				throw new DuplicadoException("La localidad ya existe");
 			}
@@ -106,8 +110,9 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	private boolean validaDuplicado(LocalidadDTO localidad) {
 		PreparedStatement statement;
 		ResultSet resultSet = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(select);
 			statement.setString(1, localidad.getDescripcion());
 			statement.setString(2, localidad.getCodigoPostal());

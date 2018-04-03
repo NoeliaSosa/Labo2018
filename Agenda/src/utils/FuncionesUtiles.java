@@ -1,5 +1,11 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +44,65 @@ public class FuncionesUtiles {
 		return validador("\\d*", txt);
 	}
 
-	public static boolean validarAltura(String txt) {
+	public static boolean soloNumeros(String txt) {
 		return validador("^[0-9]*$", txt);
 	}
+
+	public static String[] obtenerDatosDeConexion() {
+		String[] datos = new String[3];// "jdbc:mysql://localhost:3306/agenda\",\"root\",\"Tiempo8990\"";
+		BufferedReader bf = null;
+		try {
+			bf = new BufferedReader(new FileReader("src/utils/conexion.txt"));
+			String sCadena = null;
+			int i = 0;
+			while ((sCadena = bf.readLine()) != null) {
+				datos[i] = sCadena;
+				i++;
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bf != null)
+					bf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return datos;
+	}
+
+	public static boolean guardarDatosDeConexion(String ip, String puerto,
+			String user, String pass) {
+		BufferedWriter bw = null;
+		try {
+			bw = new BufferedWriter(new FileWriter("src/utils/conexion.txt"));
+			bw.write( ip + ":" + puerto );
+			bw.newLine();
+			bw.write(user);
+			bw.newLine();
+			bw.write(pass);
+			bw.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null)
+					bw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+
+	}
+
 }

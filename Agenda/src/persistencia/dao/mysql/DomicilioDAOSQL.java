@@ -50,8 +50,9 @@ public class DomicilioDAOSQL implements DomicilioDAO {
 	@Override
 	public boolean delete(DomicilioDTO domicilio_a_eliminar) {
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(delete);
 			statement.setInt(1, domicilio_a_eliminar.getIdDomicilio());
 			if (statement.executeUpdate() > 0)
@@ -67,8 +68,9 @@ public class DomicilioDAOSQL implements DomicilioDAO {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
 		ArrayList<DomicilioDTO> domicilios = new ArrayList<DomicilioDTO>();
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 
@@ -92,8 +94,9 @@ public class DomicilioDAOSQL implements DomicilioDAO {
 		DomicilioDTO domicilioRet = null;
 		ResultSet resultSet;
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(select);
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
@@ -117,8 +120,9 @@ public class DomicilioDAOSQL implements DomicilioDAO {
 	@Override
 	public boolean update(DomicilioDTO domicilio) {
 		PreparedStatement statement = null;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(update);
 			statement.setString(1, domicilio.getCalle());
 			statement.setString(2, domicilio.getAltura());
@@ -141,8 +145,9 @@ public class DomicilioDAOSQL implements DomicilioDAO {
 	public boolean validaDuplicadoDomicilio(DomicilioDTO domicilio) {
 		ResultSet resultSet;
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(
 					selectForParameter);
 			statement.setString(1, domicilio.getCalle());

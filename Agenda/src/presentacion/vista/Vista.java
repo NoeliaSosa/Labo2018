@@ -2,9 +2,12 @@ package presentacion.vista;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,6 +24,7 @@ public class Vista {
 	private JButton btnTiposContactos;
 	private JButton btnBorrar;
 	private JButton btnReporte;
+	JButton btnDatosDeConexin ;
 	private JButton btnEditar;
 	private DefaultTableModel modelPersonas;
 	private String[] nombreColumnas = { "Nombre y apellido", "Tel\u00E9fono",
@@ -46,7 +50,7 @@ public class Vista {
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(0, 0, 831, 394);
+		spPersonas.setBounds(0, 26, 831, 368);
 		panel.add(spPersonas);
 		tablaPersonas = new JTable(modelPersonas);
 		spPersonas.setViewportView(tablaPersonas);
@@ -57,11 +61,10 @@ public class Vista {
 
 		btnLocalidades = new JButton("Localidades");
 		btnLocalidades.setBounds(157, 405, 89, 23);
-		panel.add(btnLocalidades);
+		//panel.add(btnLocalidades);
 
 		btnTiposContactos = new JButton("Tipos De Contactos");
 		btnTiposContactos.setBounds(10, 405, 137, 23);
-		panel.add(btnTiposContactos);
 
 		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(541, 405, 89, 23);
@@ -74,6 +77,18 @@ public class Vista {
 		btnReporte = new JButton("Reporte");
 		btnReporte.setBounds(732, 405, 89, 23);
 		panel.add(btnReporte);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 49, 21);
+		panel.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Menu");
+		menuBar.add(mnNewMenu);
+		
+		btnDatosDeConexin = new JButton("Datos de Conexi\u00F3n");
+		mnNewMenu.add(btnDatosDeConexin);
+		mnNewMenu.add(btnTiposContactos);
+		mnNewMenu.add(btnLocalidades);
 	}
 
 	public void show() {
@@ -86,7 +101,12 @@ public class Vista {
 						"Confirmación", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == 0) {
-					Conexion.getConexion().cerrarConexion();
+					try {
+						Conexion.getConexion().cerrarConexion();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					System.exit(0);
 				}
 			}
@@ -129,4 +149,10 @@ public class Vista {
 	public JButton getBtnLocalidades() {
 		return btnLocalidades;
 	}
+
+	public JButton getBtnDatosDeConexin() {
+		return btnDatosDeConexin;
+	}
+	
+	
 }

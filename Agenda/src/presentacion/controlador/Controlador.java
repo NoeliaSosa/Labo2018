@@ -2,27 +2,30 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import modelo.Agenda;
+import persistencia.conexion.Conexion;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.VentanaDatosConexion;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
 import utils.FuncionesUtiles;
-import utils.PersonaDatasource;
-import utils.PersonaReporte;
 import dto.DomicilioDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
+import dto.PersonaDatasource;
+import dto.PersonaReporte;
 import dto.TipoDeContactoDTO;
 import exceptions.DuplicadoException;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
+	private VentanaDatosConexion ventanaDatosConexion;
 	private List<PersonaDTO> personas_en_tabla;
 	private List<LocalidadDTO> localidades;
 	private List<TipoDeContactoDTO> tiposDeContactos;
@@ -32,24 +35,42 @@ public class Controlador implements ActionListener {
 	private ControladorABMs controladorAbm;
 
 	public Controlador(Vista vista, Agenda agenda,
-			ControladorABMs controladorAbm) {
+			ControladorABMs controladorAbm,
+			VentanaDatosConexion ventanaDatosConexion) {
 		this.vista = vista;
 		this.controladorAbm = controladorAbm;
 		this.vista.getBtnAgregar().addActionListener(this);
 		this.vista.getBtnBorrar().addActionListener(this);
 		this.vista.getBtnReporte().addActionListener(this);
 		this.vista.getBtnEditar().addActionListener(this);
+		this.vista.getBtnDatosDeConexin().addActionListener(this);
 		this.vista.getBtnTiposContactos().addActionListener(this);
 		this.vista.getBtnLocalidades().addActionListener(this);
 		this.agenda = agenda;
 		this.personas_en_tabla = null;
 		this.personaEdit = null;
+		this.ventanaDatosConexion = ventanaDatosConexion;
+		this.ventanaDatosConexion.getBtnGuardar().addActionListener(this);
 	}
 
 	public void inicializar() {
-		this.actualizarListas();
-		this.llenarTabla();
-		this.vista.show();
+		if (validaConexion()) {
+			this.actualizarListas();
+			this.llenarTabla();
+			this.vista.show();
+		} else {
+			this.ventanaDatosConexion.mostrar();
+		}
+	}
+
+	private boolean validaConexion() {
+		boolean ret = true;
+		try {
+			Conexion.getConexion();
+		} catch (SQLException e) {
+			ret = false;
+		}
+		return ret;
 	}
 
 	public void actualizarListas() {
@@ -122,10 +143,27 @@ public class Controlador implements ActionListener {
 				personaEdit = this.personas_en_tabla.get(fila);
 				this.ventanaPersona = new VentanaPersona(this);
 			}
-
+		} else if (e.getSource() == this.vista.getBtnDatosDeConexin()) {
+			String[] datos = FuncionesUtiles.obtenerDatosDeConexion();
+			this.ventanaDatosConexion.modificarDatos(datos);
 		} else if (e.getSource() == this.vista.getBtnReporte()) {
 			ReporteAgenda reporte = new ReporteAgenda(obtenerPersonasReporte());
 			reporte.mostrar();
+		} else if (e.getSource() == this.ventanaDatosConexion.getBtnGuardar()) {
+			if (camposValidadosConexion() && testeoOk()) {
+
+				FuncionesUtiles.guardarDatosDeConexion(
+						this.ventanaDatosConexion.getIpInput(),
+						this.ventanaDatosConexion.getPuertoInput(),
+						this.ventanaDatosConexion.getUsuarioInput(),
+						this.ventanaDatosConexion.getContraseniaInput());
+				this.ventanaDatosConexion.dispose();
+				this.inicializar();
+
+			} else {
+				this.ventanaDatosConexion
+						.showError("Los datos ingresados no son correctos");
+			}
 		} else if (e.getSource() == this.vista.getBtnLocalidades()) {
 			this.controladorAbm.inicializarAbmLocalidades();
 		} else if (e.getSource() == this.vista.getBtnTiposContactos()) {
@@ -163,6 +201,30 @@ public class Controlador implements ActionListener {
 		}
 	}
 
+	private boolean testeoOk() {
+		try {
+			Conexion.testearConexion(this.ventanaDatosConexion.getIpInput()
+					+ ":" + this.ventanaDatosConexion.getPuertoInput(),
+					this.ventanaDatosConexion.getUsuarioInput(),
+					this.ventanaDatosConexion.getContraseniaInput());
+		} catch (SQLException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean camposValidadosConexion() {
+
+		return FuncionesUtiles.validarSoloLetras(this.ventanaDatosConexion
+				.getIpInput())
+				&& !this.ventanaDatosConexion.getIpInput().isEmpty()
+				&& FuncionesUtiles.soloNumeros(this.ventanaDatosConexion
+						.getPuertoInput())
+				&& !this.ventanaDatosConexion.getPuertoInput().isEmpty()
+				&& !this.ventanaDatosConexion.getUsuarioInput().isEmpty()
+				&& !this.ventanaDatosConexion.getContraseniaInput().isEmpty();
+	}
+
 	private PersonaDTO crearPersona(DomicilioDTO domicilio) {
 		@SuppressWarnings("deprecation")
 		PersonaDTO nuevaPersona = new PersonaDTO(0,
@@ -192,7 +254,7 @@ public class Controlador implements ActionListener {
 						.getCorreoElecInput())
 				& FuncionesUtiles.validarFecha(this.ventanaPersona
 						.getCumpleInput())
-				& FuncionesUtiles.validarAltura(this.ventanaPersona
+				& FuncionesUtiles.soloNumeros(this.ventanaPersona
 						.getAlturaInput())
 				& FuncionesUtiles.validarPiso(this.ventanaPersona
 						.getPisoInput())
@@ -211,21 +273,25 @@ public class Controlador implements ActionListener {
 	public PersonaDTO getPersonaEdit() {
 		return personaEdit;
 	}
-	
+
 	private PersonaDatasource obtenerPersonasReporte() {
 		PersonaDatasource data = new PersonaDatasource();
 		List<PersonaDTO> personas = agenda.obtenerPersonas();
 		for (PersonaDTO personaDTO : personas) {
-			PersonaReporte persona = new PersonaReporte(personaDTO.getNombre(), personaDTO.getTelefono(), obtenerLocalidad(personaDTO.getDomicilio().getLocalidad()),
-					obtenerStrFecha(personaDTO.getFechaCumpleanios()), personaDTO.getCorreoElectronico(), obtenerTipoContacto(personaDTO.getTipoContactoId()));
+			PersonaReporte persona = new PersonaReporte(personaDTO.getNombre(),
+					personaDTO.getTelefono(), obtenerLocalidad(personaDTO
+							.getDomicilio().getLocalidad()),
+					obtenerStrFecha(personaDTO.getFechaCumpleanios()),
+					personaDTO.getCorreoElectronico(),
+					obtenerTipoContacto(personaDTO.getTipoContactoId()));
 			persona.setSigno(personaDTO.getFechaCumpleanios());
 			data.addPersonaReporte(persona);
 		}
 		System.out.println(data.toString());
 		return data;
 	}
-	
-	String obtenerStrFecha (Date fecha){
+
+	String obtenerStrFecha(Date fecha) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return simpleDateFormat.format(fecha);
 	}

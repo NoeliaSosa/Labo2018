@@ -30,8 +30,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 			throw new DuplicadoException("La persona y telefono ya existen");
 		}
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(insert);
 			agregarDomicilioPersona(persona.getDomicilio());
 			// statement.setInt(1, persona.getIdPersona());
@@ -58,8 +59,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 	private boolean validaDuplicado(PersonaDTO persona) {
 		PreparedStatement statement;
 		ResultSet resultSet;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(select);
 			statement.setString(1,persona.getNombre());
 			statement.setString(2,persona.getTelefono());
@@ -86,8 +88,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 	public boolean delete(PersonaDTO persona_a_eliminar) {
 		PreparedStatement statement;
 		int chequeoUpdate = 0;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(delete);
 			statement.setString(1,
 					Integer.toString(persona_a_eliminar.getIdPersona()));
@@ -110,8 +113,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
 		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 
@@ -140,8 +144,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 	@Override
 	public boolean update(PersonaDTO persona) {
 		PreparedStatement statement;
-		Conexion conexion = Conexion.getConexion();
+		Conexion conexion;
 		try {
+			conexion = Conexion.getConexion();
 			statement = conexion.getSQLConexion().prepareStatement(update);			
 			statement.setString(1, persona.getNombre());
 			statement.setString(2, persona.getTelefono());
