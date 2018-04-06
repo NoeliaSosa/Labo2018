@@ -18,7 +18,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 	private static final String update = "UPDATE personas SET Nombre=?, Telefono=?,CorreoElectronico=?,FechaCumpleanios=?,tipoContactoId=?,domicilioId=?  WHERE idPersona = ?";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String select = "SELECT * FROM personas where Nombre=?, Telefono=?";
+	private static final String select = "SELECT * FROM personas where Nombre=? and Telefono=?";
 	private DomicilioDAO domicilioSQL;
 
 	public PersonaDAOSQL(DomicilioDAO domicilio) {

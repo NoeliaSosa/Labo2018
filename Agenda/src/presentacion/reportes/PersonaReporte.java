@@ -1,24 +1,27 @@
-package dto;
+package presentacion.reportes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-public class PersonaReporte  {
+public class PersonaReporte {
 
+	private SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
+	private SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
 	private String nombre;
 	private String telefono;
 	private String localidad;
-	private String fechaCumple;
+	private Date fechaCumple;
 	private String correoElectronico;
 	private String tipoContacto;
 	private String signo;
-	
-	public PersonaReporte(){
-		
+
+	public PersonaReporte() {
+
 	}
 
 	public PersonaReporte(String nombre, String telefono, String localidad,
-			String fechaCumple, String correoElectronico, String tipoContacto) {
+			Date fechaCumple, String correoElectronico, String tipoContacto) {
 		super();
 		this.nombre = nombre;
 		this.telefono = telefono;
@@ -52,11 +55,11 @@ public class PersonaReporte  {
 		this.localidad = localidad;
 	}
 
-	public String getFechaCumple() {
+	public Date getFechaCumple() {
 		return fechaCumple;
 	}
 
-	public void setFechaCumple(String fechaCumple) {
+	public void setFechaCumple(Date fechaCumple) {
 		this.fechaCumple = fechaCumple;
 	}
 
@@ -76,14 +79,20 @@ public class PersonaReporte  {
 		this.tipoContacto = tipoContacto;
 	}
 
-	public String getSigno() {		
+	public String getSigno() {
 		return signo;
 	}
-	
-	public void setSigno(Date fecha){
-		SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
-		SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
-		signo = calcularSigno(Integer.valueOf(diaFormat.format(fecha)),Integer.valueOf(mesFormat.format(fecha)));
+
+	public Date getFechaCompare() {
+		return new GregorianCalendar( 2018,(Integer.valueOf(mesFormat
+						.format(fechaCumple))-1),Integer.valueOf(diaFormat
+								.format(fechaCumple))).getTime();
+
+	}
+
+	public void setSigno(Date fecha) {
+		signo = calcularSigno(Integer.valueOf(diaFormat.format(fecha)),
+				Integer.valueOf(mesFormat.format(fecha)));
 	}
 
 	public String calcularSigno(int dia, int mes) {
@@ -184,6 +193,5 @@ public class PersonaReporte  {
 				+ ", correoElectronico=" + correoElectronico
 				+ ", tipoContacto=" + tipoContacto + ", signo=" + signo + "]";
 	}
-
 
 }

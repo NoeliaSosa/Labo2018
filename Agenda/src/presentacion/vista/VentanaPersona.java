@@ -231,9 +231,10 @@ public class VentanaPersona extends JFrame {
 		return correoElecInput.getText();
 	}
 
-	public String getCumpleInput() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		return simpleDateFormat.format(calendar.getDate());
+	public Date getCumpleInput() {
+		/*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return simpleDateFormat.format();*/
+		return calendar.getDate();
 	}
 
 	public String getCalleInput() {

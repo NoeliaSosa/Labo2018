@@ -29,15 +29,15 @@ public class FuncionesUtiles {
 	}
 
 	public static boolean validarTelefono(String txt) {
-		return validador("\\d*", txt);
+		return validador("\\d{6,10}", txt);
 	}
 
 	public static boolean validarSoloLetras(String txt) {
-		return validador("^[a-zA-Z\u00F1\u00D1]+$", txt);
+		return validador("^[a-zA-Z\\u00F1\\u00D1]+$", txt);
 	}
 
 	public static boolean validarCalle(String txt) {
-		return validador("[A-Z][a-zA-Z]*\\D{3}", txt);
+		return validador("[\\w\\u00F1\\u00D1]{3,}", txt);
 	}
 
 	public static boolean validarPiso(String txt) {
@@ -52,7 +52,7 @@ public class FuncionesUtiles {
 		String[] datos = new String[3];// "jdbc:mysql://localhost:3306/agenda\",\"root\",\"Tiempo8990\"";
 		BufferedReader bf = null;
 		try {
-			bf = new BufferedReader(new FileReader("src/utils/conexion.txt"));
+			bf = new BufferedReader(new FileReader(".\\conexion.txt"));
 			String sCadena = null;
 			int i = 0;
 			while ((sCadena = bf.readLine()) != null) {
@@ -61,10 +61,8 @@ public class FuncionesUtiles {
 			}
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return datos;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -82,7 +80,7 @@ public class FuncionesUtiles {
 			String user, String pass) {
 		BufferedWriter bw = null;
 		try {
-			bw = new BufferedWriter(new FileWriter("src/utils/conexion.txt"));
+			bw = new BufferedWriter(new FileWriter(".\\conexion.txt"));
 			bw.write( ip + ":" + puerto );
 			bw.newLine();
 			bw.write(user);

@@ -32,6 +32,7 @@ public class Main
 		Agenda modelo = new Agenda(new DAOSQLFactory());
 		ControladorABMs controladorABMs = new ControladorABMs(ventanaLocalidades, ventanaTiposContactos, modelo);
 		Controlador controlador = new Controlador(vista, modelo,controladorABMs,ventanaConexion);
+		controladorABMs.setControladorAgenda(controlador);
 		controlador.inicializar();
 	}
 }

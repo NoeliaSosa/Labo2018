@@ -259,7 +259,7 @@
 				<pieDataset>
 					<keyExpression><![CDATA[$F{signo}]]></keyExpression>
 					<valueExpression><![CDATA[$V{Signos_COUNT}]]></valueExpression>
-					<labelExpression><![CDATA[ new java.text.DecimalFormat("0.00").format(($V{Signos_COUNT}.doubleValue()*100)/$P{Total})+"%"]]></labelExpression>
+					<labelExpression><![CDATA[new java.text.DecimalFormat("0.00").format(($V{Signos_COUNT}.doubleValue()*100)/$P{Total})+"%"]]></labelExpression>
 				</pieDataset>
 				<piePlot>
 					<plot/>

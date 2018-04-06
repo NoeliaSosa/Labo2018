@@ -10,6 +10,8 @@ import java.util.List;
 
 import modelo.Agenda;
 import persistencia.conexion.Conexion;
+import presentacion.reportes.PersonaDatasource;
+import presentacion.reportes.PersonaReporte;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaDatosConexion;
 import presentacion.vista.VentanaPersona;
@@ -18,8 +20,6 @@ import utils.FuncionesUtiles;
 import dto.DomicilioDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
-import dto.PersonaDatasource;
-import dto.PersonaReporte;
 import dto.TipoDeContactoDTO;
 import exceptions.DuplicadoException;
 
@@ -215,22 +215,18 @@ public class Controlador implements ActionListener {
 
 	private boolean camposValidadosConexion() {
 
-		return FuncionesUtiles.validarSoloLetras(this.ventanaDatosConexion
-				.getIpInput())
-				&& !this.ventanaDatosConexion.getIpInput().isEmpty()
+		return !this.ventanaDatosConexion.getIpInput().isEmpty()
 				&& FuncionesUtiles.soloNumeros(this.ventanaDatosConexion
 						.getPuertoInput())
-				&& !this.ventanaDatosConexion.getPuertoInput().isEmpty()
 				&& !this.ventanaDatosConexion.getUsuarioInput().isEmpty()
 				&& !this.ventanaDatosConexion.getContraseniaInput().isEmpty();
 	}
 
 	private PersonaDTO crearPersona(DomicilioDTO domicilio) {
-		@SuppressWarnings("deprecation")
 		PersonaDTO nuevaPersona = new PersonaDTO(0,
 				this.ventanaPersona.getTxtNombre(),
-				ventanaPersona.getTxtTelefono(), domicilio, new Date(
-						ventanaPersona.getCumpleInput()),
+				ventanaPersona.getTxtTelefono(), domicilio, 
+						ventanaPersona.getCumpleInput(),
 				ventanaPersona.getCorreoElecInput(), ventanaPersona
 						.getTipoContacto().getIdTipo());
 		return nuevaPersona;
@@ -251,9 +247,7 @@ public class Controlador implements ActionListener {
 				& FuncionesUtiles.validarTelefono(this.ventanaPersona
 						.getTxtTelefono())
 				& FuncionesUtiles.validarEmail(this.ventanaPersona
-						.getCorreoElecInput())
-				& FuncionesUtiles.validarFecha(this.ventanaPersona
-						.getCumpleInput())
+						.getCorreoElecInput())				
 				& FuncionesUtiles.soloNumeros(this.ventanaPersona
 						.getAlturaInput())
 				& FuncionesUtiles.validarPiso(this.ventanaPersona
@@ -281,7 +275,7 @@ public class Controlador implements ActionListener {
 			PersonaReporte persona = new PersonaReporte(personaDTO.getNombre(),
 					personaDTO.getTelefono(), obtenerLocalidad(personaDTO
 							.getDomicilio().getLocalidad()),
-					obtenerStrFecha(personaDTO.getFechaCumpleanios()),
+					personaDTO.getFechaCumpleanios(),
 					personaDTO.getCorreoElectronico(),
 					obtenerTipoContacto(personaDTO.getTipoContactoId()));
 			persona.setSigno(personaDTO.getFechaCumpleanios());
@@ -295,4 +289,5 @@ public class Controlador implements ActionListener {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return simpleDateFormat.format(fecha);
 	}
+
 }
