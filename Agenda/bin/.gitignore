@@ -1,4 +1,5 @@
+/ReporteAgenda.jasper
+/.gitignore
+/ReporteAgenda.jrxml
 /presentacion/
 /utils/
-/persistencia/
-/main/
