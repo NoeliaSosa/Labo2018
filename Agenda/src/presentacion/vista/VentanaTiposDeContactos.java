@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JSeparator;
 
 public class VentanaTiposDeContactos {
 
@@ -27,7 +30,7 @@ public class VentanaTiposDeContactos {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 464, 296);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -35,24 +38,33 @@ public class VentanaTiposDeContactos {
 		panel.setLayout(null);
 		
 		JScrollPane spLocalidades = new JScrollPane();
-		spLocalidades.setBounds(0, 0, 434, 210);
+		spLocalidades.setBounds(0, 0, 434, 228);
 
 		modelTiposContactos = new DefaultTableModel(null, nombreColumnas);
 		tablaTiposDeContactos = new JTable(modelTiposContactos);
 		spLocalidades.setViewportView(tablaTiposDeContactos);
 		panel.add(spLocalidades);
 		
-		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(345, 238, 89, 23);
-		panel.add(btnBorrar);
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 		
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(249, 238, 89, 23);
-		panel.add(btnEditar);
+		JMenu mnNewMenu = new JMenu("Menu Opciones");
+		menuBar.add(mnNewMenu);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(150, 238, 89, 23);
-		panel.add(btnAgregar);
+		mnNewMenu.add(btnAgregar);
+		
+		JSeparator separator = new JSeparator();
+		mnNewMenu.add(separator);
+		
+		btnEditar = new JButton("Editar");
+		mnNewMenu.add(btnEditar);
+		
+		JSeparator separator_1 = new JSeparator();
+		mnNewMenu.add(separator_1);
+		
+		btnBorrar = new JButton("Borrar");
+		mnNewMenu.add(btnBorrar);
 	}
 	
 	public void show() {

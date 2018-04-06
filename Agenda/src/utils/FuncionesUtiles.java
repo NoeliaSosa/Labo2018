@@ -24,28 +24,32 @@ public class FuncionesUtiles {
 	}
 
 	public static boolean validarEmail(String txt) {
-		String EMAIL_VERIFICATION = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$";
+		String EMAIL_VERIFICATION = "([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+";
 		return validador(EMAIL_VERIFICATION, txt);
 	}
 
 	public static boolean validarTelefono(String txt) {
-		return validador("\\d{6,10}", txt);
+		return validador("^\\(?(\\d{2,5})?\\)?\\s?(15)?[\\s|-]?(4)\\d{2,3}[\\s|-]?\\d{4}$",txt);
 	}
 
 	public static boolean validarSoloLetras(String txt) {
-		return validador("^[a-zA-Z\\u00F1\\u00D1]+$", txt);
+		return validador("^[a-zA-Z\\u00F1\\u00D1\\s]+$", txt);
 	}
 
 	public static boolean validarCalle(String txt) {
-		return validador("[\\w\\u00F1\\u00D1]{3,}", txt);
+		return validador("^[a-zA-Z0-9\\u00F1\\u00D1\\s\\.]{3,}", txt);
 	}
 
 	public static boolean validarPiso(String txt) {
-		return validador("\\d*", txt);
+		return validador("(\\d*)?", txt);
 	}
 
 	public static boolean soloNumeros(String txt) {
 		return validador("^[0-9]*$", txt);
+	}
+	
+	public static boolean validaLocalidad(String inputLocalidad) {
+		return validador("^a-zA-Z0-9", inputLocalidad);
 	}
 
 	public static String[] obtenerDatosDeConexion() {
@@ -102,5 +106,7 @@ public class FuncionesUtiles {
 		return false;
 
 	}
+
+
 
 }

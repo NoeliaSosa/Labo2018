@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import modelo.Agenda;
 import persistencia.conexion.Conexion;
 import presentacion.reportes.PersonaDatasource;
@@ -46,6 +48,7 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnDatosDeConexin().addActionListener(this);
 		this.vista.getBtnTiposContactos().addActionListener(this);
 		this.vista.getBtnLocalidades().addActionListener(this);
+		this.vista.getMntmSalir().addActionListener(this);
 		this.agenda = agenda;
 		this.personas_en_tabla = null;
 		this.personaEdit = null;
@@ -168,7 +171,23 @@ public class Controlador implements ActionListener {
 			this.controladorAbm.inicializarAbmLocalidades();
 		} else if (e.getSource() == this.vista.getBtnTiposContactos()) {
 			this.controladorAbm.inicializarAmbTiposContactos();
-		} else if (e.getSource() == this.ventanaPersona.getBtnAgregarPersona()) {
+		}
+		else if(e.getSource() == this.vista.getMntmSalir()){
+			int confirm = JOptionPane.showOptionDialog(null,
+					"Estas seguro que quieres salir de la Agenda!?",
+					"Confirmación", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (confirm == 0) {
+				try {
+					Conexion.getConexion().cerrarConexion();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+			}
+		}
+		else if (e.getSource() == this.ventanaPersona.getBtnAgregarPersona()) {
 			if (camposValidados()) {
 
 				DomicilioDTO domicilio = crearDomicilio();

@@ -45,14 +45,14 @@ public class VentanaPersona extends JFrame {
 		this.controlador = controlador;
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 651, 443);
+		setBounds(100, 100, 697, 458);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 635, 404);
+		panel.setBounds(0, 0, 671, 408);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -65,12 +65,12 @@ public class VentanaPersona extends JFrame {
 		panel.add(lblTelfono);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(146, 10, 164, 20);
+		txtNombre.setBounds(146, 10, 164, 23);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(146, 51, 164, 20);
+		txtTelefono.setBounds(146, 51, 164, 23);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
@@ -98,7 +98,7 @@ public class VentanaPersona extends JFrame {
 
 		JPanel panel_domicilio = new JPanel();
 		panel_domicilio.setBackground(Color.LIGHT_GRAY);
-		panel_domicilio.setBounds(42, 205, 567, 155);
+		panel_domicilio.setBounds(26, 205, 567, 155);
 		panel.add(panel_domicilio);
 		panel_domicilio.setLayout(null);
 

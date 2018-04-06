@@ -196,8 +196,7 @@ public class ControladorABMs implements ActionListener {
 
 	private boolean validaDatosLocalidad() {
 		return this.ventanaLocalidad.getInputLocalidad() != null
-				&& !this.ventanaLocalidad.getInputLocalidad().isEmpty();		
-
+				&& !this.ventanaLocalidad.getInputLocalidad().isEmpty() && FuncionesUtiles.validaLocalidad(this.ventanaLocalidad.getInputLocalidad());		
 	}
 
 	private boolean validaDatosTipoContacto() {

@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JSeparator;
 
 public class VentanaLocalidades {
 
@@ -19,6 +22,10 @@ public class VentanaLocalidades {
 	private JButton btnBorrar;
 	private JButton btnEditar;
 	private String[] nombreColumnas = {"Localidad", "Codigo Postal"};
+	private JMenuBar menuBar;
+	private JMenu mnNewMenu;
+	private JSeparator separator;
+	private JSeparator separator_1;
 	
 	public VentanaLocalidades() {
 		super();
@@ -41,17 +48,26 @@ public class VentanaLocalidades {
 		spLocalidades.setViewportView(tablaLocalidades);
 		panel.add(spLocalidades);
 		
-		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(345, 238, 89, 23);
-		panel.add(btnBorrar);
+		menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 		
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(249, 238, 89, 23);
-		panel.add(btnEditar);
+		mnNewMenu = new JMenu("Menu Opciones");
+		menuBar.add(mnNewMenu);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(150, 238, 89, 23);
-		panel.add(btnAgregar);
+		mnNewMenu.add(btnAgregar);
+		
+		separator = new JSeparator();
+		mnNewMenu.add(separator);
+		
+		btnEditar = new JButton("Editar");
+		mnNewMenu.add(btnEditar);
+		
+		separator_1 = new JSeparator();
+		mnNewMenu.add(separator_1);
+		
+		btnBorrar = new JButton("Borrar");
+		mnNewMenu.add(btnBorrar);
 	}
 	
 	public void show() {

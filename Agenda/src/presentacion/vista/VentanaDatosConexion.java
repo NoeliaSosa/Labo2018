@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import persistencia.conexion.Conexion;
+import javax.swing.JSeparator;
+import javax.swing.JPasswordField;
 
 public class VentanaDatosConexion extends JFrame {
 	/**
@@ -21,51 +23,70 @@ public class VentanaDatosConexion extends JFrame {
 	private JTextField usuarioInput;
 	private JTextField contraseniaInput;
 	private JButton btnGuardar;
+	private JPasswordField passwordField;
 
 	public VentanaDatosConexion() {
+		setResizable(false);
+		setAlwaysOnTop(true);
 		setBounds(new Rectangle(200, 200, 200, 200));
 		setTitle("Datos de Conexi\u00F3n");
 		getContentPane().setLayout(null);	
-		setBounds(100, 100, 555, 360);
-		JLabel lblIp = new JLabel("ip");
-		lblIp.setBounds(78, 40, 62, 14);
+		setBounds(100, 100, 384, 316);
+		JLabel lblIp = new JLabel("Ip");
+		lblIp.setBounds(45, 51, 62, 14);
 		getContentPane().add(lblIp);
 
 		ipInput = new JTextField();
-		ipInput.setBounds(190, 37, 152, 23);
+		ipInput.setBounds(157, 48, 152, 23);
 		getContentPane().add(ipInput);
 		ipInput.setColumns(10);
 
-		JLabel lblPuerto = new JLabel("puerto");
-		lblPuerto.setBounds(78, 91, 46, 14);
+		JLabel lblPuerto = new JLabel("Puerto\r\n");
+		lblPuerto.setBounds(45, 85, 46, 14);
 		getContentPane().add(lblPuerto);
 
 		puertoInput = new JTextField();
-		puertoInput.setBounds(190, 88, 86, 23);
+		puertoInput.setBounds(157, 82, 152, 23);
 		getContentPane().add(puertoInput);
 		puertoInput.setColumns(10);
 
-		JLabel lblUsuario = new JLabel("usuario");
-		lblUsuario.setBounds(78, 139, 46, 14);
+		JLabel lblUsuario = new JLabel("Usuario\r\n");
+		lblUsuario.setBounds(45, 133, 46, 14);
 		getContentPane().add(lblUsuario);
 
 		usuarioInput = new JTextField();
-		usuarioInput.setBounds(190, 139, 152, 23);
+		usuarioInput.setBounds(157, 133, 152, 23);
 		getContentPane().add(usuarioInput);
 		usuarioInput.setColumns(10);
 
 		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
-		lblContrasenia.setBounds(78, 191, 102, 14);
+		lblContrasenia.setBounds(45, 170, 102, 14);
 		getContentPane().add(lblContrasenia);
 
-		contraseniaInput = new JTextField();
-		contraseniaInput.setBounds(190, 188, 152, 23);
+		contraseniaInput = new JPasswordField();
+		contraseniaInput.setBounds(157, 167, 152, 23);
 		getContentPane().add(contraseniaInput);
 		contraseniaInput.setColumns(10);
 
 		btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(384, 240, 89, 23);
+		btnGuardar.setBounds(136, 243, 89, 23);
 		getContentPane().add(btnGuardar);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(24, 120, 319, 2);
+		getContentPane().add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(24, 38, 319, 2);
+		getContentPane().add(separator_1);
+		
+		JLabel lblIngreseDatosDe = new JLabel("Ingrese Datos de Conexion");
+		lblIngreseDatosDe.setBounds(24, 13, 165, 27);
+		getContentPane().add(lblIngreseDatosDe);
+		
+		//passwordField = new JPasswordField();
+		//passwordField.setBounds(157, 201, 152, 23);
+		//getContentPane().add(passwordField);
 	}
 
 	public void modificarDatos(String[] datos){
@@ -119,5 +140,4 @@ public class VentanaDatosConexion extends JFrame {
 	public JButton getBtnGuardar() {
 		return btnGuardar;
 	}
-
 }

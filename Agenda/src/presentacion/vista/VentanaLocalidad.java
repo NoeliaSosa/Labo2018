@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JSeparator;
 
 public class VentanaLocalidad extends JFrame{
 	/**
@@ -21,35 +22,47 @@ public class VentanaLocalidad extends JFrame{
 	private JTextField inputLocalidad;
 	private JTextField inputCodigoPostal;
 	private JButton btnAgregarLocalidad;
+	private JLabel lblIngreseLocalidadY;
+	private JSeparator separator;
 	
 	public VentanaLocalidad(ControladorABMs controlador){
+		setResizable(false);
+		setAlwaysOnTop(true);
 		this.controlador = controlador;
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 398, 190);
 		getContentPane().setLayout(null);
 		
 		inputLocalidad = new JTextField();
-		inputLocalidad.setBounds(170, 11, 201, 20);
+		inputLocalidad.setBounds(171, 42, 201, 20);
 		getContentPane().add(inputLocalidad);
 		inputLocalidad.setColumns(10);
 		
-		JLabel lblLocalidad = new JLabel("Localidad : ");
-		lblLocalidad.setBounds(40, 14, 97, 14);
+		JLabel lblLocalidad = new JLabel("Localidad ");
+		lblLocalidad.setBounds(27, 45, 97, 14);
 		getContentPane().add(lblLocalidad);
 		
 		inputCodigoPostal = new JTextField();
-		inputCodigoPostal.setBounds(284, 45, 86, 20);
+		inputCodigoPostal.setBounds(171, 76, 200, 20);
 		getContentPane().add(inputCodigoPostal);
 		inputCodigoPostal.setColumns(10);
 		
-		JLabel lblCdigoPostal = new JLabel("C\u00F3digo Postal : ");
-		lblCdigoPostal.setBounds(40, 48, 107, 14);
+		JLabel lblCdigoPostal = new JLabel("C\u00F3digo Postal ");
+		lblCdigoPostal.setBounds(27, 79, 107, 14);
 		getContentPane().add(lblCdigoPostal);
 		
 		btnAgregarLocalidad = new JButton("Agregar");
-		btnAgregarLocalidad.setBounds(335, 227, 89, 23);
+		btnAgregarLocalidad.setBounds(285, 122, 89, 23);
 		btnAgregarLocalidad.addActionListener(controlador);
 		getContentPane().add(btnAgregarLocalidad);
+		
+		lblIngreseLocalidadY = new JLabel("Ingrese Localidad y Codigo Postal");
+		lblIngreseLocalidadY.setBounds(27, 11, 187, 14);
+		getContentPane().add(lblIngreseLocalidadY);
+		
+		separator = new JSeparator();
+		separator.setBounds(27, 31, 345, 2);
+		getContentPane().add(separator);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		validarEdicion();

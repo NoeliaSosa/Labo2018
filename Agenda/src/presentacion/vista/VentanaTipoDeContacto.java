@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JSeparator;
 
 public class VentanaTipoDeContacto extends JFrame{
 	/**
@@ -20,26 +21,38 @@ public class VentanaTipoDeContacto extends JFrame{
 	private ControladorABMs controlador;
 	private JTextField tipoInput;
 	private JButton btnAgregarTipoContacto;
+	private JLabel lblIngreseNuevoTipo;
+	private JSeparator separator;
 	
 	public VentanaTipoDeContacto (ControladorABMs controlador){
-		setBounds(100, 100, 450, 300);
+		setAlwaysOnTop(true);
+		setResizable(false);
+		setBounds(100, 100, 414, 131);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.controlador = controlador;
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Tipo de Contacto");
-		lblNewLabel.setBounds(20, 22, 112, 14);
+		lblNewLabel.setBounds(21, 37, 112, 14);
 		getContentPane().add(lblNewLabel);
 		
 		tipoInput = new JTextField();
-		tipoInput.setBounds(198, 19, 173, 20);
+		tipoInput.setBounds(166, 34, 206, 20);
 		getContentPane().add(tipoInput);
 		tipoInput.setColumns(10);
 		
 		btnAgregarTipoContacto = new JButton("Agregar");
-		btnAgregarTipoContacto.setBounds(335, 227, 89, 23);
+		btnAgregarTipoContacto.setBounds(281, 60, 89, 23);
 		btnAgregarTipoContacto.addActionListener(controlador);
 		getContentPane().add(btnAgregarTipoContacto);
+		
+		lblIngreseNuevoTipo = new JLabel("Ingrese Nuevo Tipo de Contacto");
+		lblIngreseNuevoTipo.setBounds(21, 9, 233, 14);
+		getContentPane().add(lblIngreseNuevoTipo);
+		
+		separator = new JSeparator();
+		separator.setBounds(21, 24, 349, 2);
+		getContentPane().add(separator);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		validarEdicion();
