@@ -1,5 +1,6 @@
 package presentacion.reportes;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ public class ReporteAgenda {
 		try {
 
 			this.reporte = (JasperReport) JRLoader
-					.loadObjectFromFile(".\\reportes\\ReporteAgenda.jasper");
+					.loadObjectFromFile("."+File.separator+"reporte"+File.separator+"ReporteAgenda.jasper");
 			this.reporteLleno = JasperFillManager.fillReport(this.reporte,
 					parametersMap, personas);
 		} catch (JRException ex) {

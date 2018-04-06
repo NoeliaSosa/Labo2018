@@ -2,6 +2,7 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -56,7 +57,7 @@ public class FuncionesUtiles {
 		String[] datos = new String[3];// "jdbc:mysql://localhost:3306/agenda\",\"root\",\"Tiempo8990\"";
 		BufferedReader bf = null;
 		try {
-			bf = new BufferedReader(new FileReader(".\\conexion.txt"));
+			bf = new BufferedReader(new FileReader("."+File.separator+"datos"+File.separator+"conexion.txt"));
 			String sCadena = null;
 			int i = 0;
 			while ((sCadena = bf.readLine()) != null) {
@@ -84,7 +85,7 @@ public class FuncionesUtiles {
 			String user, String pass) {
 		BufferedWriter bw = null;
 		try {
-			bw = new BufferedWriter(new FileWriter(".\\conexion.txt"));
+			bw = new BufferedWriter(new FileWriter("."+File.separator+"datos"+File.separator+"conexion.txt"));
 			bw.write( ip + ":" + puerto );
 			bw.newLine();
 			bw.write(user);

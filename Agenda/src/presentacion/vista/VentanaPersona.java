@@ -2,7 +2,6 @@ package presentacion.vista;
 
 import java.awt.Color;
 import java.awt.Label;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JButton;
