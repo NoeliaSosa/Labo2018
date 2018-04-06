@@ -23,7 +23,7 @@ public class TestValidaciones {
 	@Test
 	public void validarEmailConMayus(){
 		String text = "Joaco@htmial.com";
-		assertFalse(FuncionesUtiles.validarEmail(text));
+		assertTrue(FuncionesUtiles.validarEmail(text));
 	}
 	
 	@Test
@@ -87,6 +87,12 @@ public class TestValidaciones {
 	}
 	
 	@Test
+	public void validarTelefono6(){
+		String text = "46672405";
+		assertTrue(FuncionesUtiles.validarTelefono(text));
+	}
+	
+	@Test
 	public void validarTelefono3(){
 		String text = "(011)4667 2405";
 		assertTrue(FuncionesUtiles.validarTelefono(text));
@@ -97,6 +103,14 @@ public class TestValidaciones {
 		String text = "(11)4667 2405";
 		assertTrue(FuncionesUtiles.validarTelefono(text));
 	}
+	
+	@Test
+	public void validarTelefono5(){
+		String text = "(11)4667-2405";
+		assertTrue(FuncionesUtiles.validarTelefono(text));
+	}
+	
+	//(11)4667-2405
 	
 	@Test
 	public void validarTelefonoError(){
