@@ -83,6 +83,7 @@ public class FuncionesUtiles {
 
 	public static boolean guardarDatosDeConexion(String ip, String puerto,
 			String user, String pass) {
+		
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter("."+File.separator+"datos"+File.separator+"conexion.txt"));

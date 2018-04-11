@@ -1,8 +1,8 @@
 package main;
 
-import javax.swing.UIManager;
+import java.io.File;
 
-import com.alee.laf.WebLookAndFeel;
+import javax.swing.UIManager;
 
 import modelo.Agenda;
 import persistencia.dao.mysql.DAOSQLFactory;
@@ -12,6 +12,8 @@ import presentacion.vista.VentanaDatosConexion;
 import presentacion.vista.VentanaLocalidades;
 import presentacion.vista.VentanaTiposDeContactos;
 import presentacion.vista.Vista;
+
+import com.alee.laf.WebLookAndFeel;
 
 
 public class Main 
@@ -25,6 +27,7 @@ public class Main
 	    } catch(Exception e) {
 	        System.out.println("Error setting native LAF: " + e);
 	    }
+		File archivo  = new File("."+File.separator+"datos"+File.separator+"conexion.txt");
 		Vista vista = new Vista();
 		VentanaLocalidades ventanaLocalidades = new VentanaLocalidades();
 		VentanaTiposDeContactos ventanaTiposContactos = new VentanaTiposDeContactos();
