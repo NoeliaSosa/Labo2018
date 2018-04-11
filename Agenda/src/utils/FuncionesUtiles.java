@@ -25,7 +25,7 @@ public class FuncionesUtiles {
 	}
 
 	public static boolean validarEmail(String txt) {
-		String EMAIL_VERIFICATION = "([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+";
+		String EMAIL_VERIFICATION = "([a-zA-Z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+";
 		return validador(EMAIL_VERIFICATION, txt);
 	}
 
