@@ -7,5 +7,5 @@ public interface DAOAbstractFactory {
 	public LocalidadDAO createLocalidadDAO();
 	public TipoDeContactoDAO createTipoDeContactoDAO();
 	public PersonaDAO createPersonaDAO(DomicilioDAO domicilio);
-
+	public EspecialidadDAO createEspecialidadDAO();
 }

@@ -4,12 +4,14 @@ import java.util.List;
 
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.DomicilioDAO;
+import persistencia.dao.interfaz.EspecialidadDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.TipoDeContactoDAO;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
+import dto.EspecialidadDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoDeContactoDTO;
@@ -20,12 +22,14 @@ public class Agenda {
 	private DomicilioDAO domicilio;
 	private TipoDeContactoDAO tipoContacto;
 	private LocalidadDAO localidad;
+	private EspecialidadDAO especialidad;
 
 	public Agenda(DAOAbstractFactory metodo_persistencia) {
 		this.domicilio = metodo_persistencia.createDomicilioDAO();
 		this.persona = metodo_persistencia.createPersonaDAO(this.domicilio);
 		this.localidad = metodo_persistencia.createLocalidadDAO();
 		this.tipoContacto = metodo_persistencia.createTipoDeContactoDAO();
+		this.especialidad = metodo_persistencia.createEspecialidadDAO();
 	}
 
 	public void agregarPersona(PersonaDTO nuevaPersona) throws DuplicadoException {
@@ -74,6 +78,10 @@ public class Agenda {
 	
 	public void updateTipoDeContacto(TipoDeContactoDTO tipo){
 		this.tipoContacto.update(tipo);
+	}
+
+	public void agregarEspecialidad(EspecialidadDTO esp) throws DuplicadoException {
+		this.especialidad.insert(esp);
 	}
 
 }

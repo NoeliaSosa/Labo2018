@@ -16,10 +16,12 @@ import presentacion.reportes.PersonaDatasource;
 import presentacion.reportes.PersonaReporte;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaDatosConexion;
+import presentacion.vista.VentanaEspecialidad;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
 import utils.FuncionesUtiles;
 import dto.DomicilioDTO;
+import dto.EspecialidadDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.TipoDeContactoDTO;
@@ -35,6 +37,8 @@ public class Controlador implements ActionListener {
 	private Agenda agenda;
 	private PersonaDTO personaEdit;
 	private ControladorABMs controladorAbm;
+	private VentanaEspecialidad ventanaEspecialidad;
+
 
 	public Controlador(Vista vista, Agenda agenda,
 			ControladorABMs controladorAbm,
@@ -45,6 +49,7 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnBorrar().addActionListener(this);
 		this.vista.getBtnReporte().addActionListener(this);
 		this.vista.getBtnEditar().addActionListener(this);
+		this.vista.getBtnEspecialidad().addActionListener(this);
 		this.vista.getBtnDatosDeConexin().addActionListener(this);
 		this.vista.getBtnTiposContactos().addActionListener(this);
 		this.vista.getBtnLocalidades().addActionListener(this);
@@ -131,7 +136,12 @@ public class Controlador implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vista.getBtnAgregar()) {
 			this.ventanaPersona = new VentanaPersona(this);
-		} else if (e.getSource() == this.vista.getBtnBorrar()) {
+		}
+		else if(e.getSource() == this.vista.getBtnEspecialidad()) {
+			this.ventanaEspecialidad = new VentanaEspecialidad(this);
+		}
+		
+		else if (e.getSource() == this.vista.getBtnBorrar()) {
 			int[] filas_seleccionadas = this.vista.getTablaPersonas()
 					.getSelectedRows();
 			for (int fila : filas_seleccionadas) {
@@ -186,6 +196,15 @@ public class Controlador implements ActionListener {
 				}
 				System.exit(0);
 			}
+		}else if(e.getSource() == this.ventanaEspecialidad.getBtnAgregar()) {
+			EspecialidadDTO especialidad = new EspecialidadDTO(this.ventanaEspecialidad.getName());
+			try {
+				this.agenda.agregarEspecialidad(especialidad);
+			} catch (DuplicadoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			this.ventanaEspecialidad.dispose();
 		}
 		else if (e.getSource() == this.ventanaPersona.getBtnAgregarPersona()) {
 			if (camposValidados()) {

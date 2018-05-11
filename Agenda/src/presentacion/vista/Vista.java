@@ -26,6 +26,7 @@ public class Vista {
 	private JButton btnTiposContactos;
 	private JButton btnBorrar;
 	private JButton btnReporte;
+	private JButton BtnEspecialidad;
 	JButton btnDatosDeConexin ;
 	private JButton btnEditar;
 	private DefaultTableModel modelPersonas;
@@ -64,7 +65,7 @@ public class Vista {
 		spPersonas.setViewportView(tablaPersonas);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 266, 21);
+		menuBar.setBounds(0, 0, 364, 21);
 		panel.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("Menu");
@@ -126,6 +127,12 @@ public class Vista {
 								
 										btnReporte = new JButton("Generar Reporte");
 										mnReporte.add(btnReporte);
+										
+										JMenu EspecialidadMenu = new JMenu("Especialidad");
+										menuBar.add(EspecialidadMenu);
+										
+										BtnEspecialidad = new JButton("Agregar");
+										EspecialidadMenu.add(BtnEspecialidad);
 	}
 
 	public void show() {
@@ -185,6 +192,10 @@ public class Vista {
 
 	public JButton getBtnLocalidades() {
 		return btnLocalidades;
+	}
+	
+	public JButton getBtnEspecialidad() {
+		return BtnEspecialidad;
 	}
 
 	public JButton getBtnDatosDeConexin() {
